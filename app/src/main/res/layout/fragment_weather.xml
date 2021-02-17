@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.hanamin.weather.ui.viewmodel.WeatherVm" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:layoutDescription="@xml/motion_layout"
+        tools:showPaths="true">
+
+        <!--<ProgressBar
+            android:id="@+id/pb_loading"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}"
+            android:indeterminate="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />-->
+
+
+        <View
+            android:id="@+id/guide_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/purple_700"
+            app:layout_constraintBottom_toTopOf="@id/layout_fab"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_12sdp"
+            android:gravity="center"
+            android:text="@{vm.nameCountry}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{vm.nameCity}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@id/name_country"
+            app:layout_constraintEnd_toStartOf="@id/name_country"
+            app:layout_constraintTop_toTopOf="@id/name_country" />
+
+
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/motionlayout_weather"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/_16sdp"
+            app:layoutDescription="@xml/motion_layout"
+            app:layout_constraintBottom_toTopOf="@id/layout_fab"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:showPaths="true">
+
+            <View
+                android:id="@+id/anim_layout"
+                android:layout_width="@dimen/_42sdp"
+                android:layout_height="@dimen/_42sdp"
+                android:layout_margin="@dimen/_16sdp"
+                android:background="@drawable/bg_motion_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/list_city"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:src="@drawable/ic_location_city_24dp"
+                app:layout_constraintBottom_toBottomOf="@id/anim_layout"
+                app:layout_constraintEnd_toEndOf="@id/anim_layout"
+                app:layout_constraintStart_toStartOf="@id/anim_layout"
+                app:layout_constraintTop_toTopOf="@id/anim_layout" />
+
+            <ImageView
+                android:id="@+id/refresh"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:src="@drawable/ic_refresh"
+                app:layout_constraintEnd_toEndOf="@id/anim_layout"
+                app:layout_constraintStart_toStartOf="@id/anim_layout"
+                app:layout_constraintTop_toBottomOf="@id/list_city" />
+
+            <ImageView
+                android:id="@+id/expand"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:src="@drawable/ic_expand_more"
+                app:layout_constraintEnd_toEndOf="@id/anim_layout"
+                app:layout_constraintStart_toStartOf="@id/anim_layout"
+                app:layout_constraintTop_toTopOf="@id/anim_layout" />
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{vm.date}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_city" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_110sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:resLottie="@{vm.rawResAnim}" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{vm.description}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_26ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/animation_view" />
+
+        <TextView
+            android:id="@+id/temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:text="@{vm.temp}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_26ssp"
+            android:textStyle="bold|italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description" />
+
+        <TextView
+            android:id="@+id/avrage_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@{vm.averageTemp}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintEnd_toEndOf="@id/humidity"
+            app:layout_constraintStart_toStartOf="@id/speed"
+            app:layout_constraintTop_toBottomOf="@id/temp" />
+
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_32sdp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/_32sdp"
+            android:gravity="center"
+            android:text="@{vm.humidity}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/temp" />
+
+        <TextView
+            android:id="@+id/speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_32sdp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/_32sdp"
+            android:gravity="center"
+            android:text="@{vm.speed}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/temp" />
+
+        <View
+            android:id="@+id/layout_fab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/bg_fab_main"
+            app:layout_constraintBottom_toTopOf="@id/rv_forecast"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guide_bg" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:onClick="@{(view)->vm.goToAddFragment(view)}"
+            android:src="@android:drawable/ic_input_add"
+            app:layout_constraintBottom_toBottomOf="@id/layout_fab"
+            app:layout_constraintEnd_toEndOf="@id/layout_fab"
+            app:layout_constraintTop_toTopOf="@id/layout_fab" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@id/txt_forcast"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_fab" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_103sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:orientation="horizontal"
+            app:adapter="@{vm.adapterForcastWeather}"
+            app:layoutManager="com.hanamin.weather.ui.view.customs.WrapContentLinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/txt_forcast"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_fab"
+            app:reverseLayout="true" />
+
+        <TextView
+            android:id="@+id/txt_forcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            android:gravity="center"
+            android:text="پیش بینی پنج روز اینده"
+            android:textColor="@color/teal_200"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_forecast" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

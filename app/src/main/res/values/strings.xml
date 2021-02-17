@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">هوا نما</string>
+
+    <string name="no_internet_connection">عدم اتصال به اینترنت</string>
+</resources>

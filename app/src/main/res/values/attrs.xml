@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomTextView">
+        <attr name="drawableLeftCompatTv" format="reference" />
+        <attr name="drawableRightCompatTv" format="reference" />
+        <attr name="drawableTopCompatTv" format="reference" />
+        <attr name="drawableBottomCompatTv" format="reference" />
+    </declare-styleable>
+</resources>
