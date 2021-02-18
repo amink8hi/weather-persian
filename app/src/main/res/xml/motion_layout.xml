@@ -1,63 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
     <Transition
-        app:constraintSetEnd="@+id/endTransition"
-        app:constraintSetStart="@+id/startTransition"
-        app:duration="800">
+        motion:constraintSetEnd="@+id/endTransition"
+        motion:constraintSetStart="@+id/startTransition"
+        motion:duration="500">
         <OnSwipe
             motion:dragDirection="dragDown"
             motion:touchAnchorId="@+id/anim_layout"
             motion:touchAnchorSide="bottom" />
 
         <OnClick
-            app:clickAction="transitionToEnd"
-            app:targetId="@id/anim_layout" />
+            motion:clickAction="transitionToEnd"
+            motion:targetId="@id/anim_layout" />
+
+        <KeyFrameSet>
+            <KeyAttribute
+                android:rotation="180"
+                motion:framePosition="100"
+                motion:motionTarget="@id/expand" />
+        </KeyFrameSet>
     </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@+id/endTransition"
+        motion:constraintSetStart="@+id/startTransition"
+        motion:duration="500">
+        <OnClick
+            motion:clickAction="transitionToStart"
+            motion:targetId="@id/anim_layout" />
+        <KeyFrameSet>
+            <KeyAttribute
+                android:rotation="180"
+                motion:framePosition="100"
+                motion:motionTarget="@id/expand" />
+        </KeyFrameSet>
+    </Transition>
+
     <ConstraintSet android:id="@+id/startTransition">
 
         <Constraint
             android:id="@+id/anim_layout"
             android:layout_width="@dimen/_42sdp"
-            android:layout_height="@dimen/_42sdp"
+            android:layout_height="@dimen/_52sdp"
             android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
 
         <Constraint
             android:id="@+id/list_city"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
-            android:src="@drawable/ic_location_city_24dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/anim_layout"
-            app:layout_constraintEnd_toEndOf="@id/anim_layout"
-            app:layout_constraintStart_toStartOf="@id/anim_layout"
-            app:layout_constraintTop_toTopOf="@id/anim_layout" />
+            motion:layout_constraintBottom_toBottomOf="@id/anim_layout"
+            motion:layout_constraintEnd_toEndOf="@id/anim_layout"
+            motion:layout_constraintStart_toStartOf="@id/anim_layout"
+            motion:layout_constraintTop_toTopOf="@id/anim_layout" />
 
         <Constraint
             android:id="@+id/refresh"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
             android:layout_marginTop="@dimen/_8sdp"
-            android:src="@drawable/ic_refresh"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/anim_layout"
-            app:layout_constraintEnd_toEndOf="@id/anim_layout"
-            app:layout_constraintStart_toStartOf="@id/anim_layout"
-            app:layout_constraintTop_toTopOf="@id/anim_layout" />
+            motion:layout_constraintBottom_toBottomOf="@id/anim_layout"
+            motion:layout_constraintEnd_toEndOf="@id/anim_layout"
+            motion:layout_constraintStart_toStartOf="@id/anim_layout"
+            motion:layout_constraintTop_toTopOf="@id/anim_layout" />
 
         <Constraint
             android:id="@+id/expand"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:src="@drawable/ic_expand_more"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@id/anim_layout"
-            app:layout_constraintEnd_toEndOf="@id/anim_layout"
-            app:layout_constraintStart_toStartOf="@id/anim_layout" />
+            motion:layout_constraintBottom_toBottomOf="@id/anim_layout"
+            motion:layout_constraintEnd_toEndOf="@id/anim_layout"
+            motion:layout_constraintStart_toStartOf="@id/anim_layout" />
+
 
     </ConstraintSet>
     <ConstraintSet android:id="@+id/endTransition">
@@ -67,30 +86,28 @@
             android:layout_width="@dimen/_42sdp"
             android:layout_height="@dimen/_100sdp"
             android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
 
         <Constraint
             android:id="@+id/list_city"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:src="@drawable/ic_location_city_24dp"
+            android:layout_marginTop="@dimen/_18sdp"
             android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@id/anim_layout"
-            app:layout_constraintStart_toStartOf="@id/anim_layout"
-            app:layout_constraintTop_toTopOf="@id/anim_layout" />
+            motion:layout_constraintEnd_toEndOf="@id/anim_layout"
+            motion:layout_constraintStart_toStartOf="@id/anim_layout"
+            motion:layout_constraintTop_toTopOf="@id/anim_layout" />
 
         <Constraint
             android:id="@+id/refresh"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
             android:layout_marginTop="@dimen/_8sdp"
-            android:src="@drawable/ic_refresh"
             android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@id/anim_layout"
-            app:layout_constraintStart_toStartOf="@id/anim_layout"
-            app:layout_constraintTop_toBottomOf="@id/list_city" />
+            motion:layout_constraintEnd_toEndOf="@id/anim_layout"
+            motion:layout_constraintStart_toStartOf="@id/anim_layout"
+            motion:layout_constraintTop_toBottomOf="@id/list_city" />
 
         <Constraint
             android:id="@+id/expand"
@@ -98,12 +115,11 @@
             android:layout_height="@dimen/_24sdp"
             android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_16sdp"
-            android:src="@drawable/ic_expand_more"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@id/anim_layout"
-            app:layout_constraintEnd_toEndOf="@id/anim_layout"
-            app:layout_constraintStart_toStartOf="@id/anim_layout"
-            app:layout_constraintTop_toBottomOf="@id/refresh" />
+            motion:layout_constraintBottom_toBottomOf="@id/anim_layout"
+            motion:layout_constraintEnd_toEndOf="@id/anim_layout"
+            motion:layout_constraintStart_toStartOf="@id/anim_layout"
+            motion:layout_constraintTop_toBottomOf="@id/refresh" />
+
 
     </ConstraintSet>
 

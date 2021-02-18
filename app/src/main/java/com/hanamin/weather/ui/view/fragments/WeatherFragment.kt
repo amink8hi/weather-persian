@@ -1,5 +1,8 @@
 package com.hanamin.weather.ui.view.fragments
 
+import android.app.Activity
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,13 +44,20 @@ class WeatherFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.setVariable(BR.vm, vm)
+        activity?.setTransparentStatusBar()
+
 
         //get model response
         val currentWeatherModel = arguments?.getParcelable<CurrentWeatherModel>("currentWeather")
         vm.responseModel(currentWeatherModel!!)
 
-
     }
 
-
+    fun Activity.setTransparentStatusBar() {
+        window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = Color.TRANSPARENT
+        }
+    }
 }
