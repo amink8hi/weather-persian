@@ -7,12 +7,12 @@
         motion:duration="500">
         <OnSwipe
             motion:dragDirection="dragDown"
-            motion:touchAnchorId="@+id/anim_layout"
+            motion:touchAnchorId="@+id/expand"
             motion:touchAnchorSide="bottom" />
 
         <OnClick
             motion:clickAction="transitionToEnd"
-            motion:targetId="@id/anim_layout" />
+            motion:targetId="@id/expand" />
 
         <KeyFrameSet>
             <KeyAttribute
@@ -28,7 +28,7 @@
         motion:duration="500">
         <OnClick
             motion:clickAction="transitionToStart"
-            motion:targetId="@id/anim_layout" />
+            motion:targetId="@id/expand" />
         <KeyFrameSet>
             <KeyAttribute
                 android:rotation="180"
