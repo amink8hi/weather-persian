@@ -103,6 +103,9 @@ class WeatherVm @ViewModelInject constructor(
         loading.value = false
     }
 
+    fun goToListFragment(view: View) {
+        view.findNavController().navigate(R.id.action_weatherFragment_to_listFragment)
+    }
 
     fun goToAddFragment(view: View) {
         view.findNavController()

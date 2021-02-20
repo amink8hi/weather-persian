@@ -84,7 +84,7 @@
         <Constraint
             android:id="@+id/anim_layout"
             android:layout_width="@dimen/_42sdp"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="@dimen/_120sdp"
             android:orientation="vertical"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent" />
@@ -93,7 +93,7 @@
             android:id="@+id/list_city"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
-            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_24sdp"
             android:visibility="visible"
             motion:layout_constraintEnd_toEndOf="@id/anim_layout"
             motion:layout_constraintStart_toStartOf="@id/anim_layout"
