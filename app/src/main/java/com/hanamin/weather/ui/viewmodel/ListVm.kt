@@ -3,7 +3,7 @@ package com.hanamin.weather.ui.viewmodel
 import android.view.View
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.hanamin.weather.network.api.NetworkApi
 import com.hanamin.weather.ui.view.customs.KitToast
 
@@ -16,6 +16,6 @@ class ListVm @ViewModelInject constructor(
 
 
     fun onBackIconClick(view: View) {
-        Navigation.findNavController(view).popBackStack()
+        view.findNavController().popBackStack()
     }
 }

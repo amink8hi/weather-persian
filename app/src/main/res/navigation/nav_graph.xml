@@ -32,13 +32,16 @@
         android:name="com.hanamin.weather.ui.view.fragments.AddFragment"
         android:label="addFragment"
         tools:layout="@layout/fragment_add">
+
         <action
             android:id="@+id/action_addFragment_to_weatherFragment"
             app:destination="@id/weatherFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -48,7 +51,15 @@
         android:label="listFragment"
         tools:layout="@layout/fragment_list">
 
-
+        <action
+            android:id="@+id/action_listFragment_to_weatherFragment"
+            app:destination="@id/weatherFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

@@ -60,6 +60,10 @@ class AddFragment : BaseFragment() {
         binding.setVariable(BR.vm, vm)
         val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
 
+        //color status bar
+        activity?.window?.statusBarColor = resources.getColor(R.color.status)
+
+
         //array list city name
         adapter =
             ArrayAdapter<String>(

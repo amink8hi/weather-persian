@@ -7,7 +7,7 @@
     <color name="teal_700">#974F02</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
+    <color name="status">#604ED0</color>
 
     <color name="toast_green">#72BA71</color>
     <color name="toast_yellow">#F7A63E</color>
