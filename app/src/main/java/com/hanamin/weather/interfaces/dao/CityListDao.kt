@@ -1,9 +1,6 @@
 package com.hanamin.weather.interfaces.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.hanamin.weather.data.local.CityListModel
 
 
@@ -12,12 +9,20 @@ interface CityListDao {
 
 
     @Delete
-    fun deletList(data: MutableList<CityListModel?>)
+    fun deletList(data: CityListModel?)
 
-    @Insert()
-    fun insertList(data: MutableList<CityListModel?>)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertList(data: CityListModel?)
 
     @Query("SELECT * FROM CityListModel ")
     fun getList(): MutableList<CityListModel?>
 
+    @Query("UPDATE CityListModel SET currentCity = :status ")
+    fun updateList(status: Boolean?)
+
+    @Query("UPDATE CityListModel SET  currentCity = :status WHERE listCity = :city")
+    fun updateCity(city: String?, status: Boolean?)
+
+    @Query("SELECT * FROM  CityListModel  WHERE currentCity = :status")
+    fun getCity(status: Boolean?): CityListModel?
 }

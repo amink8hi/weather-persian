@@ -109,6 +109,7 @@
                 android:layout_width="@dimen/_24sdp"
                 android:layout_height="@dimen/_24sdp"
                 android:src="@drawable/ic_refresh"
+                android:onClick="@{()->vm.refresh()}"
                 app:layout_constraintEnd_toEndOf="@id/anim_layout"
                 app:layout_constraintStart_toStartOf="@id/anim_layout"
                 app:layout_constraintTop_toBottomOf="@id/list_city" />

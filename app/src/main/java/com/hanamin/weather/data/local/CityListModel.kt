@@ -1,14 +1,19 @@
 package com.hanamin.weather.data.local
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(indices = [Index(value = ["listCity"], unique = true)])
 data class CityListModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int? = 0,
+
     val listCity: String? = "",
     val currentCity: Boolean? = false
-)
+) {
+
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
 
 

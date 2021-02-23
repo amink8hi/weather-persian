@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.hanamin.weather.ui.viewmodel.ItemListVm" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_4sdp"
+        android:onClick="@{(view)->vm.selectCity(view)}"
+        app:cardCornerRadius="@dimen/_6sdp"
+        app:cardElevation="@dimen/_4sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:padding="@dimen/_12sdp"
+                android:text="@{vm.data.listCity}"
+                android:textSize="@dimen/_13ssp" />
+
+            <ImageView
+                android:id="@+id/check"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/city"
+                android:layout_alignBottom="@id/city"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/bg_active_item"
+                android:padding="@dimen/_6sdp"
+                android:src="@drawable/ic_check_white_24dp"
+                android:visibility="@{vm.data.currentCity ? View.VISIBLE : View.GONE}" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

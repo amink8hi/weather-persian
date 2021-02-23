@@ -37,9 +37,9 @@
                     android:layout_width="@dimen/_24sdp"
                     android:layout_height="@dimen/_24sdp"
                     android:layout_gravity="end"
-                    android:onClick="@{(view)->vm.onBackIconClick(view)}"
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:background="@android:color/transparent"
+                    android:onClick="@{(view)->vm.onBackIconClick(view)}"
                     android:padding="@dimen/_8sdp"
                     app:srcCompat="@drawable/ic_arrow_back" />
 
@@ -52,5 +52,30 @@
                     android:textSize="@dimen/_15ssp" />
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_listCity"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:orientation="vertical"
+            app:adapter="@{vm.adapterListCity}"
+            app:layoutManager="com.hanamin.weather.ui.view.customs.WrapContentLinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pb_loading" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

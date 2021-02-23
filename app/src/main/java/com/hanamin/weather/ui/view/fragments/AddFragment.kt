@@ -81,6 +81,7 @@ class AddFragment : BaseFragment() {
 
                         if (ConnectionChecker.isInternetAvailable(requireContext())) {
                             vm.getList(vm.searchInputText.value!!)
+                            vm.nameCity.value = vm.searchInputText.value!!
                         } else {
                             kitToast.errorToast(getString(R.string.no_internet_connection))
                         }
@@ -98,6 +99,7 @@ class AddFragment : BaseFragment() {
                     val nameCity = parent.getItemAtPosition(position) as String
                     if (ConnectionChecker.isInternetAvailable(requireContext())) {
                         vm.getList(nameCity)
+                        vm.nameCity.value = nameCity
                     } else {
                         kitToast.errorToast(getString(R.string.no_internet_connection))
                     }
