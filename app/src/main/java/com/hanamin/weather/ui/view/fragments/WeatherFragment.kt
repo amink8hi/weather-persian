@@ -64,7 +64,6 @@ class WeatherFragment : BaseFragment() {
                     cityListDataBase.cityListDao()?.getCity(true)
                 }
                 vm.getList(list?.listCity!!)
-                vm.city.value = list.listCity
             }
         arguments?.clear()
 

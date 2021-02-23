@@ -38,7 +38,7 @@ class MainActivity : BaseActivity() {
             val list = withContext(Dispatchers.IO) {
                 cityListDataBase.cityListDao()?.getList()
             }
-            if (list == null) {
+            if (list.isNullOrEmpty()) {
                 navGraph.startDestination = R.id.addFragment
             } else {
                 navGraph.startDestination = R.id.weatherFragment

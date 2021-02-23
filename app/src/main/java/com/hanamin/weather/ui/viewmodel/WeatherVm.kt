@@ -39,7 +39,6 @@ class WeatherVm @ViewModelInject constructor(
     var averageTemp = MutableLiveData<String>().default("")
     var humidity = MutableLiveData<String>().default("")
     var speed = MutableLiveData<String>().default("")
-    var city = MutableLiveData<String>().default("")
     var adapterForcastWeather = MutableLiveData<ForcastWeatherAdapter>().default(
         ForcastWeatherAdapter(mutableListOf())
     )
@@ -71,7 +70,7 @@ class WeatherVm @ViewModelInject constructor(
     private fun handleError(t: Throwable) {
         loading.value = false
         Timber.d(t)
-        kitToast.errorToast("شهر مورد نظر یافت نشد")
+        kitToast.errorToast("خطا در برقراری ارتباط")
     }
 
     fun responseModel(currentWeatherModel: CurrentWeatherModel) {
@@ -148,7 +147,7 @@ class WeatherVm @ViewModelInject constructor(
 
     fun refresh() {
         adapterForcastWeather.value = ForcastWeatherAdapter(mutableListOf())
-        getList(city.value!!)
+        getList(nameCity.value!!)
     }
 }
 
