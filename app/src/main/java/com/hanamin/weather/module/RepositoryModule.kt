@@ -22,6 +22,7 @@ class RepositoryModule {
 
 
     @Provides
+    @Singleton
     fun databaseProvider(application: Application): CityListDataBase {
         return Room.databaseBuilder(application, CityListDataBase::class.java, "db")
             .build()

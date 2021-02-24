@@ -55,7 +55,6 @@ class WeatherVm @ViewModelInject constructor(
                 )
                 handleList(response)
             } catch (t: Throwable) {
-                Timber.d(t)
                 handleError(t)
             }
 
@@ -69,7 +68,7 @@ class WeatherVm @ViewModelInject constructor(
 
     private fun handleError(t: Throwable) {
         loading.value = false
-        Timber.d(t)
+        Timber.e("$tag --> $t")
         kitToast.errorToast("خطا در برقراری ارتباط")
     }
 
@@ -109,7 +108,6 @@ class WeatherVm @ViewModelInject constructor(
                 )
                 handleListForcast(response.list)
             } catch (t: Throwable) {
-                Timber.d(t)
                 handleErrorFoscast(t)
             }
 
@@ -132,7 +130,7 @@ class WeatherVm @ViewModelInject constructor(
     }
 
     private fun handleErrorFoscast(t: Throwable) {
-        Timber.d("$tag --> $t")
+        Timber.e("$tag --> $t")
         loading.value = false
     }
 

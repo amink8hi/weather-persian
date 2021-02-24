@@ -27,6 +27,7 @@ class ItemListVm(
 ) : ViewModel() {
 
     private val bundle = Bundle()
+    private var tag = javaClass.canonicalName
 
     fun getList(city: String, view: View) {
         loading.value = true
@@ -40,7 +41,6 @@ class ItemListVm(
                 )
                 handleList(response, view)
             } catch (t: Throwable) {
-                Timber.d(t)
                 handleError(t)
             }
 
@@ -61,7 +61,7 @@ class ItemListVm(
 
     private fun handleError(t: Throwable) {
         loading.value = false
-        Timber.d(t)
+        Timber.e("$tag --> $t")
         kitToast.errorToast("دوباره تلاش کنید")
     }
 

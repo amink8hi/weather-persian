@@ -41,7 +41,6 @@ class AddVm @ViewModelInject constructor(
                 )
                 handleList(response)
             } catch (t: Throwable) {
-                Timber.d(t)
                 handleError(t)
             }
 
@@ -63,7 +62,7 @@ class AddVm @ViewModelInject constructor(
 
     private fun handleError(t: Throwable) {
         loading.value = false
-        Timber.d(t)
+        Timber.e("$tag --> $t")
         kitToast.errorToast("شهر مورد نظر یافت نشد")
     }
 
@@ -80,7 +79,6 @@ class AddVm @ViewModelInject constructor(
                 )
                 handleListLatLong(response)
             } catch (t: Throwable) {
-                Timber.d(t)
                 handleErrorLatLong(t)
             }
 
@@ -102,7 +100,7 @@ class AddVm @ViewModelInject constructor(
 
     private fun handleErrorLatLong(t: Throwable) {
         loading.value = false
-        Timber.d("$tag --> $t")
+        Timber.e("$tag --> $t")
         kitToast.errorToast("شهر مورد نظر یافت نشد")
     }
 
