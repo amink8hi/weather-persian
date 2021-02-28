@@ -5,7 +5,7 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.hanamin.weather.R
-import com.hanamin.weather.data.db.room.CityListDataBase
+import com.hanamin.weather.data.db.room.RoomDataBase
 import com.hanamin.weather.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     @Inject
-    lateinit var cityListDataBase: CityListDataBase
+    lateinit var dataBase: RoomDataBase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class MainActivity : BaseActivity() {
         // set start destination nav graph
         GlobalScope.launch(Dispatchers.Main) {
             val list = withContext(Dispatchers.IO) {
-                cityListDataBase.cityListDao()?.getList()
+                dataBase.cityListDao()?.getList()
             }
             if (list.isNullOrEmpty()) {
                 navGraph.startDestination = R.id.addFragment

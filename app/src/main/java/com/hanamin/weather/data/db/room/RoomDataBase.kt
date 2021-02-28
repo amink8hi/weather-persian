@@ -7,6 +7,6 @@ import com.hanamin.weather.interfaces.dao.CityListDao
 
 
 @Database(entities = [CityListModel::class], version = 2)
-abstract class CityListDataBase : RoomDatabase() {
+abstract class RoomDataBase : RoomDatabase() {
     abstract fun cityListDao(): CityListDao?
 }

@@ -1,19 +1,18 @@
 package com.hanamin.weather.data.remote.responce.fiveDailyWeather
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class FiveDailyWeatherModel(
-    val cod: Int,
-    val message: Int,
-    val cnt: Int,
+    /*  val cod: Int,
+      val message: Int,
+      val cnt: Int,*/
     val list: MutableList<ListModel?>,
-    val city: CityModel
+    /*  val city: CityModel*/
 ) : Parcelable
 
-@Parcelize
+/*@Parcelize
 data class CityModel(
     val id: Int,
     val name: String,
@@ -23,67 +22,68 @@ data class CityModel(
     val timezone: Int,
     val sunrise: Int,
     val sunset: Int
-) : Parcelable
+) : Parcelable*/
 
-@Parcelize
+/*@Parcelize
 data class CloudsModel(
     val all: Int
-) : Parcelable
+) : Parcelable*/
 
-@Parcelize
+/*@Parcelize
 data class CoordModel(
     val lat: Double,
     val lon: Double
-) : Parcelable
+) : Parcelable*/
 
 @Parcelize
 data class ListModel(
     val dt: Long? = 0,
     val main: MainModel,
     val weather: MutableList<WeatherModel>,
-    val clouds: CloudsModel,
+/*    val clouds: CloudsModel,
     val wind: WindModel,
     val visibility: Int,
     val pop: Double,
     val rain: RainModel,
     val sys: SysModel,
-    val dt_txt: String
+    val dt_txt: String*/
 ) : Parcelable
 
 @Parcelize
 data class MainModel(
     val temp: Double,
-    val feels_like: Double,
+/*    val feels_like: Double,
     val temp_min: Double,
     val temp_max: Double,
     val pressure: Int,
     val sea_level: Int,
     val grnd_level: Int,
     val humidity: Int,
-    val temp_kf: Double
+    val temp_kf: Double*/
 ) : Parcelable
 
-@Parcelize
+/*@Parcelize
 data class RainModel(
     @SerializedName("3h")
     val threeH: Double
-) : Parcelable
+) : Parcelable*/
 
-@Parcelize
+/*@Parcelize
 data class SysModel(
     val pod: String
-) : Parcelable
+) : Parcelable*/
 
 @Parcelize
 data class WeatherModel(
     val id: Int,
-    val main: String,
+    /*  val main: String,*/
     val description: String,
-    val icon: String
+/*    val icon: String*/
 ) : Parcelable
 
+/*
 @Parcelize
 data class WindModel(
     val speed: Double,
     val deg: Int
-) : Parcelable
+) : Parcelable*/

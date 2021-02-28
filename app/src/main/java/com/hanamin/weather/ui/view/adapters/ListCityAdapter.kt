@@ -8,19 +8,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.hanamin.weather.R
-import com.hanamin.weather.data.db.room.CityListDataBase
+import com.hanamin.weather.data.db.room.RoomDataBase
 import com.hanamin.weather.data.local.CityListModel
 import com.hanamin.weather.databinding.ItemListCityBinding
 import com.hanamin.weather.network.api.NetworkApi
 import com.hanamin.weather.ui.view.customs.KitToast
 import com.hanamin.weather.ui.viewmodel.ItemListVm
+import com.hanamin.weather.utils.FileUtils
 
 class ListCityAdapter(
     private val list: MutableList<CityListModel?>,
     private val networkApi: NetworkApi,
     private val loading: MutableLiveData<Boolean>,
     private val kitToast: KitToast,
-    private val cityListDataBase: CityListDataBase
+    private val cityListDataBase: RoomDataBase,
+    private val fileUtils: FileUtils
 ) :
     RecyclerView.Adapter<ListCityAdapter.DataViewHolder>() {
 
@@ -40,7 +42,8 @@ class ListCityAdapter(
                 networkApi,
                 loading,
                 kitToast,
-                cityListDataBase
+                cityListDataBase,
+                fileUtils
             )
         )
 

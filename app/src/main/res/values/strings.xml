@@ -2,4 +2,6 @@
     <string name="app_name">هوا نما</string>
 
     <string name="no_internet_connection">عدم اتصال به اینترنت</string>
+    <string name="communication_error">خطا در برقراری ارتباط</string>
+    <string name="no_found_city">شهر مورد نظر یافت نشد</string>
 </resources>

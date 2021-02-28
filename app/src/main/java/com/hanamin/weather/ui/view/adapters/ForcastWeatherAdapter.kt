@@ -7,11 +7,11 @@ import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hanamin.weather.R
-import com.hanamin.weather.data.remote.responce.fiveDailyWeather.ListModel
+import com.hanamin.weather.data.local.FiveListModel
 import com.hanamin.weather.databinding.ItemForcastWeatherBinding
 import com.hanamin.weather.ui.viewmodel.ItemForcastWeatherVm
 
-class ForcastWeatherAdapter(private val list: MutableList<ListModel?>) :
+class ForcastWeatherAdapter(private val list: MutableList<FiveListModel?>) :
     RecyclerView.Adapter<ForcastWeatherAdapter.DataViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
@@ -23,7 +23,7 @@ class ForcastWeatherAdapter(private val list: MutableList<ListModel?>) :
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        val dataModel: ListModel? = list[position]
+        val dataModel: FiveListModel? = list[position]
         holder.setViewModel(ItemForcastWeatherVm(dataModel))
     }
 
@@ -41,7 +41,7 @@ class ForcastWeatherAdapter(private val list: MutableList<ListModel?>) :
         holder.unbind()
     }
 
-    fun updateData(data: MutableList<ListModel?>) {
+    fun updateData(data: MutableList<FiveListModel>) {
         if (!data.isNullOrEmpty()) {
             this.list.addAll(data)
         }

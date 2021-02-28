@@ -3,7 +3,8 @@ package com.hanamin.weather.module
 import android.app.Application
 import androidx.room.Room
 import com.hanamin.weather.data.db.prefs.DataRepository
-import com.hanamin.weather.data.db.room.CityListDataBase
+import com.hanamin.weather.data.db.room.RoomDataBase
+import com.hanamin.weather.utils.FileUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,11 +21,17 @@ class RepositoryModule {
         return DataRepository(application)
     }
 
+    @Provides
+    @Singleton
+    fun fileProvider(application: Application): FileUtils {
+        return FileUtils(application)
+    }
+
 
     @Provides
     @Singleton
-    fun databaseProvider(application: Application): CityListDataBase {
-        return Room.databaseBuilder(application, CityListDataBase::class.java, "db")
+    fun databaseProvider(application: Application): RoomDataBase {
+        return Room.databaseBuilder(application, RoomDataBase::class.java, "db")
             .build()
     }
 

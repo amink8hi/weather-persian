@@ -6,11 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(indices = [Index(value = ["listCity"], unique = true)])
 data class CityListModel(
-
     val listCity: String? = "",
     val currentCity: Boolean? = false
 ) {
-
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 }

@@ -8,13 +8,19 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.hanamin.weather.R
 import com.hanamin.weather.constants.ApiConstants
+import com.hanamin.weather.data.local.CurrentListModel
+import com.hanamin.weather.data.local.FiveListModel
 import com.hanamin.weather.data.remote.responce.currentWeather.CurrentWeatherModel
 import com.hanamin.weather.data.remote.responce.fiveDailyWeather.ListModel
 import com.hanamin.weather.network.api.NetworkApi
 import com.hanamin.weather.ui.view.adapters.ForcastWeatherAdapter
 import com.hanamin.weather.ui.view.customs.KitToast
+import com.hanamin.weather.utils.ConnectionChecker
+import com.hanamin.weather.utils.FileUtils
 import com.hanamin.weather.utils.WeatherUtils
 import com.hanamin.weather.utils.extensions.default
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import saman.zamani.persiandate.PersianDate
 import saman.zamani.persiandate.PersianDateFormat
@@ -25,7 +31,8 @@ import java.util.*
 
 class WeatherVm @ViewModelInject constructor(
     private val networkApi: NetworkApi,
-    private val kitToast: KitToast
+    private val kitToast: KitToast,
+    private val fileUtils: FileUtils
 ) : ViewModel() {
 
     private var tag = javaClass.canonicalName
@@ -63,40 +70,64 @@ class WeatherVm @ViewModelInject constructor(
 
     private fun handleList(response: CurrentWeatherModel) {
         loading.value = false
-        responseModel(response)
+        GlobalScope.launch(Dispatchers.IO) {
+            val json = fileUtils.objToJson(
+                CurrentListModel(
+                    response.weather!![0].id, response.name,
+                    response.sys?.country!!,
+                    response.weather[0].description,
+                    response.main?.temp!!,
+                    response.main.temp_min,
+                    response.main.temp_max,
+                    response.main.humidity,
+                    response.wind?.speed!!
+                )
+            )
+            fileUtils.writeToFile("CurrentList.txt", json)
+        }
+
+        responseModel(
+            CurrentListModel(
+                response.weather!![0].id, response.name,
+                response.sys?.country!!,
+                response.weather[0].description,
+                response.main?.temp!!,
+                response.main.temp_min,
+                response.main.temp_max,
+                response.main.humidity,
+                response.wind?.speed!!
+            )
+        )
     }
 
     private fun handleError(t: Throwable) {
         loading.value = false
         Timber.e("$tag --> $t")
-        kitToast.errorToast("خطا در برقراری ارتباط")
+
     }
 
-    fun responseModel(currentWeatherModel: CurrentWeatherModel) {
-        rawResAnim.value = WeatherUtils().getWeatherAnimation(currentWeatherModel.weather!![0].id)
-        nameCity.value = currentWeatherModel.name
-        if (currentWeatherModel.sys?.country == "IR") {
+    fun responseModel(currentListModel: CurrentListModel) {
+        rawResAnim.value = WeatherUtils().getWeatherAnimation(currentListModel.weatherID!!)
+        nameCity.value = currentListModel.nameCity
+        if (currentListModel.nameCountry == "IR") {
             val pdate = PersianDate()
             val pdformater1 = PersianDateFormat("l , d , F")
             date.value = pdformater1.format(pdate)
             nameCountry.value = "ایران".plus(" / ")
         } else {
             date.value = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
-            nameCountry.value = " / ".plus(currentWeatherModel.sys?.country)
+            nameCountry.value = " / ".plus(currentListModel.nameCountry)
         }
-        description.value = currentWeatherModel.weather[0].description
-        temp.value = currentWeatherModel.main?.temp.toString().plus("°C ")
+        description.value = currentListModel.description
+        temp.value = currentListModel.temp.toString().plus("°C ")
         averageTemp.value =
-            "میانگین دما\n".plus(currentWeatherModel.main?.temp_min.toString() + " / " + currentWeatherModel.main?.temp_max.toString())
-        humidity.value = "میزان رطوبت\n".plus(currentWeatherModel.main?.humidity.toString() + "%")
-        speed.value = "سرعت باد\n".plus(currentWeatherModel.wind?.speed.toString() + " m/s")
-
-
-        getListForcast(currentWeatherModel.name)
+            "میانگین دما\n".plus(currentListModel.temp_min.toString() + " / " + currentListModel.temp_max.toString())
+        humidity.value = "میزان رطوبت\n".plus(currentListModel.humidity.toString() + "%")
+        speed.value = "سرعت باد\n".plus(currentListModel.speed.toString() + " m/s")
 
     }
 
-    fun getListForcast(city: String) {
+    fun getListForcast(city: String, view: View) {
         loading.value = true
         viewModelScope.launch {
             try {
@@ -108,7 +139,7 @@ class WeatherVm @ViewModelInject constructor(
                 )
                 handleListForcast(response.list)
             } catch (t: Throwable) {
-                handleErrorFoscast(t)
+                handleErrorFoscast(t, view)
             }
 
         }
@@ -118,20 +149,36 @@ class WeatherVm @ViewModelInject constructor(
         //get list with five coefficient
         adapterForcastWeather.value = ForcastWeatherAdapter(mutableListOf())
         val list: MutableList<ListModel?> = mutableListOf()
+        var json = ""
+        val fiveList: MutableList<FiveListModel> = mutableListOf()
 
         for (i in 1..5) {
             if (response[i * 7 + (i - 1)] != null) {
                 list.add(response[i * 7 + (i - 1)])
+                fiveList.add(
+                    i - 1, FiveListModel(
+                        list[i - 1]?.dt!!, list[i - 1]?.main?.temp!!,
+                        list[i - 1]?.weather!![0].id, list[i - 1]?.weather!![0].description
+                    )
+                )
             }
         }
 
-        adapterForcastWeather.value?.updateData(list)
+        json = fileUtils.objToJson(fiveList)
+        fileUtils.writeToFile("FiveList.txt", json)
+        adapterForcastWeather.value?.updateData(fiveList)
+
         loading.value = false
     }
 
-    private fun handleErrorFoscast(t: Throwable) {
+    private fun handleErrorFoscast(t: Throwable, view: View) {
         Timber.e("$tag --> $t")
         loading.value = false
+        if (!ConnectionChecker.isInternetAvailable(view.context)) {
+            kitToast.errorToast(view.resources.getString(R.string.no_internet_connection))
+        } else {
+            kitToast.errorToast(view.resources.getString(R.string.communication_error))
+        }
     }
 
     fun goToListFragment(view: View) {
@@ -143,8 +190,8 @@ class WeatherVm @ViewModelInject constructor(
             .navigate(R.id.action_weatherFragment_to_addFragment)
     }
 
-    fun refresh() {
-        adapterForcastWeather.value = ForcastWeatherAdapter(mutableListOf())
+    fun refresh(view: View) {
+        getListForcast(nameCity.value!!, view)
         getList(nameCity.value!!)
     }
 }

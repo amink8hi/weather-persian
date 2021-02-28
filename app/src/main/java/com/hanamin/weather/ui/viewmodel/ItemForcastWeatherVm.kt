@@ -1,14 +1,14 @@
 package com.hanamin.weather.ui.viewmodel
 
-import com.hanamin.weather.data.remote.responce.fiveDailyWeather.ListModel
+import com.hanamin.weather.data.local.FiveListModel
 import com.hanamin.weather.utils.DateUtils
 import com.hanamin.weather.utils.WeatherUtils
 import saman.zamani.persiandate.PersianDate
 import saman.zamani.persiandate.PersianDateFormat
 
-class ItemForcastWeatherVm(val data: ListModel?) {
-    val temp = data?.main?.temp.toString() + "°C "
-    val rawResAnim = WeatherUtils().getWeatherAnimation(data!!.weather[0].id)
+class ItemForcastWeatherVm(val data: FiveListModel?) {
+    val temp = data?.temp.toString() + "°C "
+    val rawResAnim = WeatherUtils().getWeatherAnimation(data?.weatherID!!)
     val pdate = PersianDate(DateUtils.timeStampToDate(data?.dt!!))
     val pdformater1 = PersianDateFormat("l")
 

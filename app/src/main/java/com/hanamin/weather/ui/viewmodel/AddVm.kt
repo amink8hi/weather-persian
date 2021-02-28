@@ -1,35 +1,41 @@
 package com.hanamin.weather.ui.viewmodel
 
+import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hanamin.weather.R
 import com.hanamin.weather.constants.ApiConstants
-import com.hanamin.weather.data.db.room.CityListDataBase
+import com.hanamin.weather.data.db.room.RoomDataBase
 import com.hanamin.weather.data.local.CityListModel
+import com.hanamin.weather.data.local.CurrentListModel
 import com.hanamin.weather.data.remote.responce.currentWeather.CurrentWeatherModel
 import com.hanamin.weather.network.api.NetworkApi
 import com.hanamin.weather.ui.view.customs.KitToast
+import com.hanamin.weather.utils.FileUtils
 import com.hanamin.weather.utils.extensions.default
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class AddVm @ViewModelInject constructor(
     private val networkApi: NetworkApi,
-    private val cityListDataBase: CityListDataBase,
-    private val kitToast: KitToast
+    private val dataBase: RoomDataBase,
+    private val kitToast: KitToast,
+    private val fileUtils: FileUtils
 ) : ViewModel() {
+
+
     private var tag = javaClass.canonicalName
     var searchInputText = MutableLiveData<String>().default("")
     var nameCity = MutableLiveData<String>().default("")
     var loading = MutableLiveData<Boolean>().default(false)
-    var currentWeatherModel = MutableLiveData<CurrentWeatherModel>()
+    var status = MutableLiveData<Boolean>()
 
 
-    fun getList(city: String) {
+    fun getList(city: String, context: Context) {
         loading.value = true
         viewModelScope.launch {
             try {
@@ -41,7 +47,7 @@ class AddVm @ViewModelInject constructor(
                 )
                 handleList(response)
             } catch (t: Throwable) {
-                handleError(t)
+                handleError(t, context)
             }
 
         }
@@ -49,24 +55,37 @@ class AddVm @ViewModelInject constructor(
 
     private fun handleList(response: CurrentWeatherModel) {
         loading.value = false
-        currentWeatherModel.value = response
 
-        GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) {
-                cityListDataBase.cityListDao()?.updateList(false)
-                cityListDataBase.cityListDao()?.insertList(CityListModel(nameCity.value, true))
-                cityListDataBase.cityListDao()?.updateCity(nameCity.value, true)
-            }
+        GlobalScope.launch(Dispatchers.IO) {
+            dataBase.cityListDao()?.updateList(false)
+            dataBase.cityListDao()?.insertList(CityListModel(nameCity.value, true))
+            dataBase.cityListDao()?.updateCity(nameCity.value, true)
+
+            val json = fileUtils.objToJson(
+                CurrentListModel(
+                    response.weather!![0].id, response.name,
+                    response.sys?.country!!,
+                    response.weather[0].description,
+                    response.main?.temp!!,
+                    response.main.temp_min,
+                    response.main.temp_max,
+                    response.main.humidity,
+                    response.wind?.speed!!
+                )
+            )
+            fileUtils.writeToFile("CurrentList.txt", json)
         }
+
+        status.value = true
     }
 
-    private fun handleError(t: Throwable) {
+    private fun handleError(t: Throwable, context: Context) {
         loading.value = false
         Timber.e("$tag --> $t")
-        kitToast.errorToast("شهر مورد نظر یافت نشد")
+        kitToast.errorToast(context.getString(R.string.no_found_city))
     }
 
-    fun getListWithLatLong(lat: Double, long: Double) {
+    fun getListWithLatLong(lat: Double, long: Double, context: Context) {
         loading.value = true
         viewModelScope.launch {
             try {
@@ -79,7 +98,7 @@ class AddVm @ViewModelInject constructor(
                 )
                 handleListLatLong(response)
             } catch (t: Throwable) {
-                handleErrorLatLong(t)
+                handleErrorLatLong(t, context)
             }
 
         }
@@ -87,21 +106,35 @@ class AddVm @ViewModelInject constructor(
 
     private fun handleListLatLong(response: CurrentWeatherModel) {
         loading.value = false
-        currentWeatherModel.value = response
 
-        GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) {
-                cityListDataBase.cityListDao()?.updateList(false)
-                cityListDataBase.cityListDao()?.insertList(CityListModel(response.name, true))
-                cityListDataBase.cityListDao()?.updateCity(response.name, true)
-            }
+        GlobalScope.launch(Dispatchers.IO) {
+
+            dataBase.cityListDao()?.updateList(false)
+            dataBase.cityListDao()?.insertList(CityListModel(response.name, true))
+            dataBase.cityListDao()?.updateCity(response.name, true)
+
+            val json = fileUtils.objToJson(
+                CurrentListModel(
+                    response.weather!![0].id, response.name,
+                    response.sys?.country!!,
+                    response.weather[0].description,
+                    response.main?.temp!!,
+                    response.main.temp_min,
+                    response.main.temp_max,
+                    response.main.humidity,
+                    response.wind?.speed!!
+                )
+            )
+            fileUtils.writeToFile("CurrentList.txt", json)
         }
+
+        status.value = true
     }
 
-    private fun handleErrorLatLong(t: Throwable) {
+    private fun handleErrorLatLong(t: Throwable, context: Context) {
         loading.value = false
         Timber.e("$tag --> $t")
-        kitToast.errorToast("شهر مورد نظر یافت نشد")
+        kitToast.errorToast(context.getString(R.string.no_found_city))
     }
 
 }

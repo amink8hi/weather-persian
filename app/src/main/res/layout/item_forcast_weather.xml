@@ -44,7 +44,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
-            android:text="@{vm.data.weather[0].description}"
+            android:text="@{vm.data.description}"
             android:textColor="@color/white"
             android:textSize="@dimen/_11ssp"
             app:layout_constraintEnd_toEndOf="parent"

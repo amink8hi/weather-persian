@@ -33,9 +33,9 @@ class AddFragment : BaseFragment() {
 
     private val vm by viewModels<AddVm>()
     private var binding by autoCleared<FragmentAddBinding>()
-    private val bundle = Bundle()
     private lateinit var adapter: ArrayAdapter<String>
     private lateinit var locationUtils: LocationUtils
+    private var bundle = Bundle()
 
     @Inject
     lateinit var kitToast: KitToast
@@ -80,7 +80,7 @@ class AddFragment : BaseFragment() {
                     if (vm.searchInputText.value!!.length > 1 && !vm.searchInputText.value!!.isEmpty()) {
 
                         if (ConnectionChecker.isInternetAvailable(requireContext())) {
-                            vm.getList(vm.searchInputText.value!!)
+                            vm.getList(vm.searchInputText.value!!, requireContext())
                             vm.nameCity.value = vm.searchInputText.value!!
                         } else {
                             kitToast.errorToast(getString(R.string.no_internet_connection))
@@ -98,7 +98,7 @@ class AddFragment : BaseFragment() {
                 if (vm.loading.value == false) {
                     val nameCity = parent.getItemAtPosition(position) as String
                     if (ConnectionChecker.isInternetAvailable(requireContext())) {
-                        vm.getList(nameCity)
+                        vm.getList(nameCity, requireContext())
                         vm.nameCity.value = nameCity
                     } else {
                         kitToast.errorToast(getString(R.string.no_internet_connection))
@@ -107,22 +107,17 @@ class AddFragment : BaseFragment() {
                 closeKeyboard(view)
             }
 
-
-        //go to wheather fragment
-        vm.currentWeatherModel.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                bundle.putParcelable("currentWeather", it)
-                navController.navigate(R.id.action_addFragment_to_weatherFragment, bundle)
-            }
-        })
-
         //get weather with gps
         btn_gps.setOnClickListener {
             if (vm.loading.value == false) {
                 if (ConnectionChecker.isInternetAvailable(requireContext())) {
                     locationUtils = LocationUtils(requireActivity(), object : LocationResult {
                         override fun getLocation(location: Location?) {
-                            vm.getListWithLatLong(location?.latitude!!, location.longitude)
+                            vm.getListWithLatLong(
+                                location?.latitude!!,
+                                location.longitude,
+                                requireContext()
+                            )
                             locationUtils.stopGpsTracker()
                         }
                     })
@@ -131,6 +126,14 @@ class AddFragment : BaseFragment() {
                 }
             }
         }
+
+        //go to wheather fragment
+        vm.status.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                bundle.putString("nameCity", vm.nameCity.value)
+                navController.navigate(R.id.action_addFragment_to_weatherFragment, bundle)
+            }
+        })
 
     }
 }

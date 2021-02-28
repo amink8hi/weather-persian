@@ -9,17 +9,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.hanamin.weather.BR
 import com.hanamin.weather.R
-import com.hanamin.weather.data.db.room.CityListDataBase
-import com.hanamin.weather.data.remote.responce.currentWeather.CurrentWeatherModel
+import com.hanamin.weather.data.local.CurrentListModel
+import com.hanamin.weather.data.local.FiveListModel
 import com.hanamin.weather.databinding.FragmentWeatherBinding
 import com.hanamin.weather.ui.base.BaseFragment
+import com.hanamin.weather.ui.view.adapters.ForcastWeatherAdapter
 import com.hanamin.weather.ui.viewmodel.WeatherVm
+import com.hanamin.weather.utils.FileUtils
 import com.hanamin.weather.utils.extensions.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -30,7 +28,7 @@ class WeatherFragment : BaseFragment() {
     private var binding by autoCleared<FragmentWeatherBinding>()
 
     @Inject
-    lateinit var cityListDataBase: CityListDataBase
+    lateinit var fileUtils: FileUtils
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,18 +52,22 @@ class WeatherFragment : BaseFragment() {
         //color status bar
         activity?.window?.statusBarColor = Color.TRANSPARENT
 
-        //get model response
-        val currentWeatherModel = arguments?.getParcelable<CurrentWeatherModel>("currentWeather")
-        if (currentWeatherModel != null)
-            vm.responseModel(currentWeatherModel)
-        else
-            GlobalScope.launch(Dispatchers.Main) {
-                val list = withContext(Dispatchers.IO) {
-                    cityListDataBase.cityListDao()?.getCity(true)
-                }
-                vm.getList(list?.listCity!!)
-            }
+
+        //get five list
+        val city = arguments?.getString("nameCity")
+        if (city != null) {
+            vm.getListForcast(city, view)
+        } else {
+            val fiveList = fileUtils.jsonToArrayObj<MutableList<FiveListModel>>("FiveList.txt")
+            vm.adapterForcastWeather.value = ForcastWeatherAdapter(mutableListOf())
+            vm.adapterForcastWeather.value?.updateData(fiveList)
+        }
         arguments?.clear()
+
+
+        //get current list
+        val currentList = fileUtils.jsonToObj<CurrentListModel>("CurrentList.txt")
+        vm.responseModel(currentList)
 
     }
 
