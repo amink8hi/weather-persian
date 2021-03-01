@@ -1,8 +1,11 @@
 package com.hanamin.weather.ui.view.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
@@ -25,7 +28,7 @@ class ListCityAdapter(
     private val fileUtils: FileUtils
 ) :
     RecyclerView.Adapter<ListCityAdapter.DataViewHolder>() {
-
+    private var lastPosition = -1
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val itemView: View = LayoutInflater.from(parent.context).inflate(
             R.layout.item_list_city,
@@ -46,7 +49,7 @@ class ListCityAdapter(
                 fileUtils
             )
         )
-
+        setAnimation(holder.itemView, position, holder.binding?.root?.context!!)
 
     }
 
@@ -62,6 +65,7 @@ class ListCityAdapter(
     override fun onViewDetachedFromWindow(holder: DataViewHolder) {
         super.onViewDetachedFromWindow(holder)
         holder.unbind()
+        holder.itemView.clearAnimation()
     }
 
     fun updateData(data: MutableList<CityListModel?>) {
@@ -98,5 +102,14 @@ class ListCityAdapter(
         }
     }
 
+    private fun setAnimation(viewToAnimate: View, position: Int, context: Context) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition) {
+            val animation: Animation =
+                AnimationUtils.loadAnimation(context, R.anim.item_animation_list_city)
+            viewToAnimate.startAnimation(animation)
+            lastPosition = position
+        }
+    }
 
 }
