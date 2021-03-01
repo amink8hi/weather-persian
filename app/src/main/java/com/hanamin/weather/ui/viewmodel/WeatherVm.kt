@@ -36,6 +36,8 @@ class WeatherVm @ViewModelInject constructor(
 ) : ViewModel() {
 
     private var tag = javaClass.canonicalName
+    var message = MutableLiveData<String>().default("")
+    var checkList = MutableLiveData<Boolean>().default(false)
     var loading = MutableLiveData<Boolean>().default(false)
     var nameCity = MutableLiveData<String>().default("")
     var nameCountry = MutableLiveData<String>().default("")
@@ -169,6 +171,8 @@ class WeatherVm @ViewModelInject constructor(
         adapterForcastWeather.value?.updateData(fiveList)
 
         loading.value = false
+        checkList.value = false
+
     }
 
     private fun handleErrorFoscast(t: Throwable, view: View) {
@@ -179,6 +183,8 @@ class WeatherVm @ViewModelInject constructor(
         } else {
             kitToast.errorToast(view.resources.getString(R.string.communication_error))
         }
+        message.value = view.resources.getString(R.string.communication_error)
+        checkList.value = true
     }
 
     fun goToListFragment(view: View) {
