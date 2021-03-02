@@ -10,7 +10,7 @@
 
         <variable
             name="vm"
-            type="com.hanamin.weather.ui.viewmodel.ListVm" />
+            type="com.hanamin.weather.ui.viewmodel.DetailVm" />
 
     </data>
 
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="لیست شهرها"
+                    android:text="جزئیات"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_15ssp" />
             </com.google.android.material.appbar.MaterialToolbar>
@@ -68,14 +68,24 @@
             android:id="@+id/rv_listCity"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_4sdp"
             android:orientation="vertical"
-            app:adapter="@{vm.adapterListCity}"
+            app:adapter="@{vm.adapterDetailWeather}"
             app:layoutManager="com.hanamin.weather.ui.view.customs.WrapContentLinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pb_loading" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{vm.message}"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="@{vm.checkList  ? View.VISIBLE : View.GONE, default=gone }"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

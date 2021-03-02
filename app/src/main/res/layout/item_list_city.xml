@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_4sdp"
         android:onClick="@{(view)->vm.selectCity(view)}"
+        app:cardBackgroundColor="@color/purple_500"
         app:cardCornerRadius="@dimen/_6sdp"
         app:cardElevation="@dimen/_4sdp">
 
@@ -33,6 +34,7 @@
                 android:gravity="center"
                 android:padding="@dimen/_12sdp"
                 android:text="@{vm.data.listCity}"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_13ssp" />
 
             <ImageView

@@ -58,6 +58,15 @@
             motion:layout_constraintTop_toTopOf="@id/anim_layout" />
 
         <Constraint
+            android:id="@+id/detail_city"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:visibility="invisible"
+            motion:layout_constraintEnd_toEndOf="@id/anim_layout"
+            motion:layout_constraintStart_toStartOf="@id/anim_layout"
+            motion:layout_constraintTop_toBottomOf="@id/list_city" />
+
+        <Constraint
             android:id="@+id/refresh"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
@@ -66,7 +75,7 @@
             motion:layout_constraintBottom_toBottomOf="@id/anim_layout"
             motion:layout_constraintEnd_toEndOf="@id/anim_layout"
             motion:layout_constraintStart_toStartOf="@id/anim_layout"
-            motion:layout_constraintTop_toTopOf="@id/anim_layout" />
+            motion:layout_constraintTop_toTopOf="@id/detail_city" />
 
         <Constraint
             android:id="@+id/expand"
@@ -84,7 +93,7 @@
         <Constraint
             android:id="@+id/anim_layout"
             android:layout_width="@dimen/_42sdp"
-            android:layout_height="@dimen/_120sdp"
+            android:layout_height="@dimen/_156sdp"
             android:orientation="vertical"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent" />
@@ -98,6 +107,15 @@
             motion:layout_constraintEnd_toEndOf="@id/anim_layout"
             motion:layout_constraintStart_toStartOf="@id/anim_layout"
             motion:layout_constraintTop_toTopOf="@id/anim_layout" />
+        <Constraint
+            android:id="@+id/detail_city"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:visibility="visible"
+            motion:layout_constraintEnd_toEndOf="@id/anim_layout"
+            motion:layout_constraintStart_toStartOf="@id/anim_layout"
+            motion:layout_constraintTop_toBottomOf="@id/list_city" />
 
         <Constraint
             android:id="@+id/refresh"
@@ -107,7 +125,7 @@
             android:visibility="visible"
             motion:layout_constraintEnd_toEndOf="@id/anim_layout"
             motion:layout_constraintStart_toStartOf="@id/anim_layout"
-            motion:layout_constraintTop_toBottomOf="@id/list_city" />
+            motion:layout_constraintTop_toBottomOf="@id/detail_city" />
 
         <Constraint
             android:id="@+id/expand"

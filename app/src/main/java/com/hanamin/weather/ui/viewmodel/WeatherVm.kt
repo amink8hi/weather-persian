@@ -1,5 +1,6 @@
 package com.hanamin.weather.ui.viewmodel
 
+import android.os.Bundle
 import android.view.View
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
@@ -36,6 +37,7 @@ class WeatherVm @ViewModelInject constructor(
 ) : ViewModel() {
 
     private var tag = javaClass.canonicalName
+    val bundle = Bundle()
     var message = MutableLiveData<String>().default("")
     var checkList = MutableLiveData<Boolean>().default(false)
     var loading = MutableLiveData<Boolean>().default(false)
@@ -189,6 +191,11 @@ class WeatherVm @ViewModelInject constructor(
 
     fun goToListFragment(view: View) {
         view.findNavController().navigate(R.id.action_weatherFragment_to_listFragment)
+    }
+
+    fun goToDetailFragment(view: View) {
+        bundle.putString("nameCity", nameCity.value)
+        view.findNavController().navigate(R.id.action_weatherFragment_to_detailFragment, bundle)
     }
 
     fun goToAddFragment(view: View) {
