@@ -193,7 +193,8 @@
             android:textSize="@dimen/_11ssp"
             app:layout_constraintEnd_toEndOf="@id/humidity"
             app:layout_constraintStart_toStartOf="@id/speed"
-            app:layout_constraintTop_toBottomOf="@id/temp" />
+            app:layout_constraintTop_toBottomOf="@id/temp"
+            app:layout_constraintBottom_toTopOf="@id/layout_fab" />
 
         <TextView
             android:id="@+id/humidity"
@@ -207,7 +208,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_11ssp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/temp" />
+            app:layout_constraintTop_toBottomOf="@id/temp"
+            app:layout_constraintBottom_toTopOf="@id/layout_fab" />
 
         <TextView
             android:id="@+id/speed"
@@ -221,7 +223,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_11ssp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/temp" />
+            app:layout_constraintTop_toBottomOf="@id/temp"
+            app:layout_constraintBottom_toTopOf="@id/layout_fab" />
 
         <View
             android:id="@+id/layout_fab"
