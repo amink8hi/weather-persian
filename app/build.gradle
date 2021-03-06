@@ -7,6 +7,7 @@ plugins {
 }
 
 android {
+
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -23,7 +24,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources false
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -86,7 +87,7 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:4.11.0"
     implementation 'com.airbnb.android:lottie:3.4.1'
     implementation 'com.github.samanzamani.persiandate:PersianDate:0.8'
-
+    implementation 'com.github.mreram:showcaseview:1.2.0'
     
     // hilt dagger
     implementation 'com.google.dagger:hilt-android:2.31-alpha'

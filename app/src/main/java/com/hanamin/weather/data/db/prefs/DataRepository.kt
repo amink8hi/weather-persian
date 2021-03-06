@@ -16,6 +16,12 @@ data class DataRepository(private val context: Context) {
         @Singleton
         set(value) = preferences.edit().putString(prefsTag + "afsaweqweqwew", value).apply()
 
+    var once: String?
+        @Singleton
+        get() = preferences.getString(prefsTag + "qweqrafasd", "")!!
+        @Singleton
+        set(value) = preferences.edit().putString(prefsTag + "qweqrafasd", value).apply()
+
 
     init {
         preferences = context.getSharedPreferences(
